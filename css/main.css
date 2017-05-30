@@ -1,6 +1,154 @@
-p {
+html, body{
+    margin: 0px;
+    padding: 0px;
+}
+h1{
+    margin:0px;
+    padding:0px;
     font-family: "Segoe UI";
-    font-size: 20px;
     text-align: center;
-    text-shadow: 0px 1px 2px #000;
+    color:#fff;
+}
+#topBar{
+    height: 90px;
+    widows: 100%;
+    background: #000;
+}
+h1#siteTitle{
+    font-size: 40px;
+    color:#fff;
+}
+.headerLine{
+    width:100%;
+    height: 4px;
+    background: #555;
+}
+.smallLine{
+    width:80%;
+    margin-left: 10%;
+    height: 2px;
+    background: #444;
+}
+.row{
+    width:100%;
+    height: 40px;
+    background: #222;
+}
+.alphaBG{
+    position: relative;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+}
+p {
+    font-size: 20px;
+}
+
+ul.mainMenu{
+    display: inline-block;
+    list-style: none;
+    margin-left: 10%;
+    background-color: #222;
+    width: 300px;
+}
+a.menuLink{
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color:#fff;
+    cursor: pointer;
+    text-decoration: none;
+    margin-left: 10px;
+}
+ul.mainMenu>li{
+    cursor: pointer;
+    border: 1px solid #000;
+    border-left: 3px solid #000;
+    font-size: 20px;
+    padding-left: 0px;
+    transition: 500ms;
+    padding-top:10px;
+    padding-bottom:10px;
+    margin-top:10px;
+    margin-bottom:10px;
+    transform: translateX(0px);
+}
+ul.mainMenu>li:hover{
+    border-left: 3px solid #0f0;
+    transform: translateX(25px);
+}
+.indic{
+    width: 5px;
+    height: 5px;
+    background-color: #aaa;
+    border-radius: 100%;
+}
+.content{
+    width:80%;
+    margin-left: 10%;
+    background: #222;
+}
+h1.header{
+
+}
+h1.title{
+
+}
+h1.subtitle{
+
+}
+p.text{
+
+}
+p.note{
+    font-size: 15px;
+    color:#fff;
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;    
+}
+p.siteNote{
+
+}
+p.citation{
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color:#000;
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.5);
+  padding:5px;
+  margin-left: 30px;
+  margin-right: 30px;
+}
+p.citation.red{
+  background: hsl(0, 100%, 60%);
+  border: 2px hsl(0, 100%, 50%) solid;
+}
+p.citation.green{
+  background: hsl(90, 100%, 70%);
+  border: 2px hsl(90, 100%, 50%) solid;
+}
+p.description{
+text-align: justify;
+}
+.wrapper{
+    display: inline;
+}
+.contentCard{
+    cursor: pointer;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 17px;
+    padding: 10px;
+    color:#fff;
+    width:300px;
+    background: #252526;
+    border: 2px solid #444;
+    transform: scale(1, 1);
+    transition: 500ms;
+    margin: 8px;
+    display: inline-block;
+}
+
+.contentCard:hover{
+    background: #282829;
+    transform: scale(1.04, 1.04);
+}
+
+.imgDesc{
+    width:90%;
+    border:1px solid #444;
 }

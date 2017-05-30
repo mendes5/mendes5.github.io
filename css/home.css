@@ -1,0 +1,24 @@
+.bgCanvas{
+    display: block;
+    position: fixed;
+    z-index: -9999;
+}
+
+#Mask{
+    height: 500px;
+    width:100%;
+    background: rgba(0, 0, 0, 0);
+}
+
+h1#MainTitle{
+    position: relative;
+    font-family: "Segoe UI";
+    text-align:center;
+    top:50%;
+    color:#000;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    transform: translateY(-50%);
+    font-size: 50px;
+    background: rgba(0, 0, 0, 0.3);
+}
