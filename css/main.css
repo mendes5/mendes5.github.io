@@ -57,7 +57,11 @@ a.menuLink{
     text-decoration: none;
     margin-left: 10px;
 }
+ul.mainMenu>li.new{
+ border-left: 3px solid yellow;
+}
 ul.mainMenu>li{
+
     cursor: pointer;
     border: 1px solid #000;
     border-left: 3px solid #000;
@@ -111,6 +115,9 @@ p.note{
 }
 p.siteNote{
 
+}
+.new{
+    border-right: 5px solid yellow;
 }
 p.citation{
   font-family: Verdana, Geneva, Tahoma, sans-serif;
