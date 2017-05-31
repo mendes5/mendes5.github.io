@@ -1,0 +1,157 @@
+/* http://prismjs.com/download.html?themes=prism-funky&languages=markup+css+clike+javascript+abap+actionscript+ada+apacheconf+apl+applescript+asciidoc+aspnet+autoit+autohotkey+bash+basic+batch+c+brainfuck+bro+bison+csharp+cpp+coffeescript+ruby+css-extras+d+dart+django+diff+docker+eiffel+elixir+erlang+fsharp+fortran+gherkin+git+glsl+go+graphql+groovy+haml+handlebars+haskell+haxe+http+icon+inform7+ini+j+jade+java+jolie+json+julia+keyman+kotlin+latex+less+livescript+lolcode+lua+makefile+markdown+matlab+mel+mizar+monkey+nasm+nginx+nim+nix+nsis+objectivec+ocaml+oz+parigp+parser+pascal+perl+php+php-extras+powershell+processing+prolog+properties+protobuf+puppet+pure+python+q+qore+r+jsx+reason+rest+rip+roboconf+crystal+rust+sas+sass+scss+scala+scheme+smalltalk+smarty+sql+stylus+swift+tcl+textile+twig+typescript+verilog+vhdl+vim+wiki+xojo+yaml */
+/**
+ * prism.js Funky theme
+ * Based on “Polyfilling the gaps” talk slides http://lea.verou.me/polyfilling-the-gaps/
+ * @author Lea Verou
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	font-family:  Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+	font-size: 20px;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+
+
+	padding-left: 15px; 
+	width: 80%;
+	margin: auto;
+    border: 4px #333 solid;
+    box-shadow: 3px 3px 5px #000;
+	overflow: auto;
+	background:#1E2127;
+	background-size: 1em 1em;
+}
+
+code[class*="language-"] {
+	color: #ccc;
+}
+ 
+
+:not(pre) > code[class*="language-"] {
+	padding: .2em;
+	border-radius: .3em;
+	box-shadow: none;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #666;
+}
+.token.constantVar{
+	color:#E5C07B;
+}
+.token.punctuation {
+	color: #999;
+}
+
+.namespace {
+	opacity: .7;
+}
+.token.method1{
+	color: #56B6C2;
+}
+.token.cpp{
+	color: #3af;
+}
+.token.cppFn{
+	color:#0ba;
+}
+.token.class-name{
+	font-style: italic;
+	color: #66D9EF;
+
+}
+.token.constructor2{
+	color: #00D9AF;
+}
+.token.prototypeMaster{
+	color: #61AFEF;
+	font-style: italic;
+}
+.token.prototype{
+	color: #61AFEF;
+	font-weight: bold;
+}
+.token.paramtersName{
+	color: red;
+}
+.token.boolean{
+	font-weight: bolder;
+	color: #3aC;
+}
+.token.word{
+	color:#aaa;
+}
+.token.property,
+.token.tag,
+.token.number,
+.token.constant,
+.token.symbol {
+	color: #D19A66;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin {
+	color: #98C379;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.toke.variable,
+.token.inserted {
+	color: #ABB2BF;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+	color: #C678DD;
+}
+
+.token.regex,
+.token.important {
+	color: orange;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+
+.token.deleted {
+	color: red;
+}
+

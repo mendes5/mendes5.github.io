@@ -6,10 +6,10 @@ const Cos = Math.cos
 const utils = (_ => {
 
     const toRadFactor = Math.PI / 180
-    
+
     Math.toRad = (v) => v * toRadFactor
     Math.TWO_PI = Math.PI * 2
-    
+
     const _canvas = document.createElement('canvas').getContext('2d')
 
 
@@ -37,14 +37,14 @@ const utils = (_ => {
 
     const arrayOf = (n = 1, s = 0) => new Array(n).fill(1).map(i => new s())
 
-    const arrayBy = (n = 1, s = _=>0) => new Array(n).fill(1).map(i => s())
+    const arrayBy = (n = 1, s = _ => 0) => new Array(n).fill(1).map(i => s())
 
     const range = (n, s = 0, f = 1) => new Array(n).fill(1).map(i => i = s += f)
 
     const UUID = (a = 4, b = 4) => new Array(a).fill(0).map(i => new Array(b).fill(0).map(e => '0123456789abcdef'[Math.floor(Math.random() * 16)]).join('')).join('-')
 
     const random = (v) => Math.floor(Math.random() * v)
-    
+
 
     //By 'Francisc'
     //http://stackoverflow.com/questions/4959975/generate-random-number-between-two-numbers-in-javascript
@@ -199,7 +199,7 @@ const utils = (_ => {
 
     const isEqualToAny = (input, items = []) => {
         let res = false
-        items.map(i => !res && (res = i === input))
+        items.map(_i_ => !res && (res = (_i_ === input)))
         return res
     }
 
@@ -356,14 +356,32 @@ const utils = (_ => {
         return await fetch('test.json').then(r => r.json())
     }
 
-    let loop = fn => {
-        let lp = function(dt){
+    let loop = (fn, hd) => {
+        let handle;
+        let stoped = false;
+        let lp = function (dt) {
             fn(dt)
-            requestAnimationFrame(lp)
+            handle = requestAnimationFrame(lp)
         }
         lp()
-        return lp
-    } 
+        let result = {
+            stop: _ => cancelAnimationFrame(handle),
+            play: _ => lp(),
+            toggle: _ => (stoped = !stoped) ? result.stop():result.play() 
+        }
+        return result
+    }
+
+    let playFromSoundCloud = async function (url) {
+        let audio = new Audio()
+        audio.crossOrigin = "anonymous"
+        let link = `https://api.soundcloud.com/resolve.json?url=${encodeURIComponent(url)}&client_id=17a992358db64d99e492326797fff3e8`
+        let result = await fetch(link).then(res => res.json()).then(json => json)
+        audio.src = `http://api.soundcloud.com/tracks/${result.id}/stream?client_id=17a992358db64d99e492326797fff3e8`
+        audio.play()
+
+        return { audio, result }
+    }
 
     return Object.assign({
         getRandRGB,
@@ -396,21 +414,21 @@ const utils = (_ => {
         arrayOf,
         arrayBy,
         randomOf,
-    },{
-        //By 'Keith Peters' 2007 (colorized)
-        //https://github.com/bit101
-        
-        distanceXY: (x0, y0, x1, y1) => Math.sqrt(x1 - x0 ** 2 + y1 - y0 ** 2),
-        distance: (p0, p1) => Math.sqrt(p1.x - p0.x ** 2 + p1.y - p0.y ** 2),
-        norm: (value, min, max) => (value - min) / (max - min),
-        lerp: (norm, min, max) => (max - min) * norm + min,
-        map: (value, sourceMin, sourceMax, destMin, destMax) => utils.lerp(utils.norm(value, sourceMin, sourceMax), destMin, destMax),
-        clamp: (value, min, max) => Math.min(Math.max(value, Math.min(min, max)), Math.max(min, max)),
-        circleCollision: (c0, c1) => utils.distance(c0, c1) <= c0.radius + c1.radius,
-        circlePointCollision: (x, y, circle) => utils.distanceXY(x, y, circle.x, circle.y) < circle.radius,
-        pointInRect: (x, y, rect) => utils.inRange(x, rect.x, rect.x + rect.width) && utils.inRange(y, rect.y, rect.y + rect.height),
-        inRange: (value, min, max) => value >= Math.min(min, max) && value <= Math.max(min, max),
-        rangeIntersect: (min0, max0, min1, max1) => Math.max(min0, max0) >= Math.min(min1, max1) && Math.min(min0, max0) <= Math.max(min1, max1),
-        rectIntersect: (r0, r1) => utils.rangeIntersect(r0.x, r0.x + r0.width, r1.x, r1.x + r1.width) && utils.rangeIntersect(r0.y, r0.y + r0.height, r1.y, r1.y + r1.height),
-    })
+        playFromSoundCloud
+    }, {
+            //By 'Keith Peters' 2007 (colorized)
+            //https://github.com/bit101
+            lerp: (norm, min, max) => (max - min) * norm + min,
+            norm: (value, min, max) => (value - min) / (max - min),
+            distance: (p0, p1) => Math.sqrt(p1.x - p0.x ** 2 + p1.y - p0.y ** 2),
+            distanceXY: (x0, y0, x1, y1) => Math.sqrt(x1 - x0 ** 2 + y1 - y0 ** 2),
+            circleCollision: (c0, c1) => utils.distance(c0, c1) <= c0.radius + c1.radius,
+            inRange: (value, min, max) => value >= Math.min(min, max) && value <= Math.max(min, max),
+            clamp: (value, min, max) => Math.min(Math.max(value, Math.min(min, max)), Math.max(min, max)),
+            circlePointCollision: (x, y, circle) => utils.distanceXY(x, y, circle.x, circle.y) < circle.radius,
+            pointInRect: (x, y, rect) => utils.inRange(x, rect.x, rect.x + rect.width) && utils.inRange(y, rect.y, rect.y + rect.height),
+            map: (value, sourceMin, sourceMax, destMin, destMax) => utils.lerp(utils.norm(value, sourceMin, sourceMax), destMin, destMax),
+            rangeIntersect: (min0, max0, min1, max1) => Math.max(min0, max0) >= Math.min(min1, max1) && Math.min(min0, max0) <= Math.max(min1, max1),
+            rectIntersect: (r0, r1) => utils.rangeIntersect(r0.x, r0.x + r0.width, r1.x, r1.x + r1.width) && utils.rangeIntersect(r0.y, r0.y + r0.height, r1.y, r1.y + r1.height),
+        })
 })()

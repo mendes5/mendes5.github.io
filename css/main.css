@@ -92,7 +92,13 @@ h1.title{
 
 }
 h1.subtitle{
-
+  text-align: left;
+  color:#eee;
+  font-family: Arial, Helvetica, sans-serif;
+  margin-left: 5em; 
+  margin-bottom: 10px;
+  font-size: 20px;
+  width: 80%;
 }
 p.text{
 
@@ -125,16 +131,35 @@ p.citation.green{
 p.description{
 text-align: justify;
 }
+p.text{
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color:#eee;
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.5);
+  padding:5px;
+  line-height: 30px;
+  margin-left: 5em;  
+  width: 80%;
+}
+i.hiBlue{
+    color:#3af;
+    background: rgb(30,33,39);
+    padding:1px;
+    border:rgba(40,40 ,40 ,0.5) 1px solid;
+}
+i.noDec{
+    color:#aaa;
+    font-style: normal;
+}
 .wrapper{
     display: inline;
 }
 .contentCard{
     cursor: pointer;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    font-size: 17px;
+    font-size: 16px;
     padding: 10px;
     color:#fff;
-    width:300px;
+    width:250px;
     background: #252526;
     border: 2px solid #444;
     transform: scale(1, 1);
@@ -142,7 +167,16 @@ text-align: justify;
     margin: 8px;
     display: inline-block;
 }
-
+a.teleport{
+    transition: 500ms;
+    text-decoration: underline;
+    color:#6df
+}
+a.externalTeleport{
+    transition: 500ms;
+    text-decoration: underline;
+    color:#3fd
+}
 .contentCard:hover{
     background: #282829;
     transform: scale(1.04, 1.04);
@@ -151,4 +185,9 @@ text-align: justify;
 .imgDesc{
     width:90%;
     border:1px solid #444;
+}
+.bgCanvas{
+    display: block;
+    position: fixed;
+    z-index: -9999;
 }

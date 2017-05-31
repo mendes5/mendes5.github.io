@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <link rel="icon" href="https://avatars0.githubusercontent.com/u/9648865?v=3&s=400">
+    <title>Cold Meson_06 | Home</title>
+    <meta name="description" content="Cold Meson_06 | Home">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./../../css/main.css">
+    <link rel="stylesheet" href="./../../css/misc.css">
+    <link rel="stylesheet" href="./../../css/vendor/prism.css" />
+    <script src="./../../js/vendor/prism.js"></script>
+    <script src="./../../js/utils.js"></script>
+</head>
+
+<body>
+    <canvas id="canvas" class="bgCanvas"></canvas>
+    <div id="topBar">
+        <h1 id="siteTitle">Cold Meson_06</h1>
+        <p class="note">site testing v0.0.0.0.0.0.0.0b (build:0.0.0.0.0.0.0f)</p>
+    </div>
+    <div class="headerLine"></div>
+    <div class="alphaBG">
+        <br><br>
+        <div class="content">
+            <br><br>
+            <h1 class="title">For Loops</h1>
+            <div class="smallLine"></div>
+            <p class="text">Para começar vamos usar um codigo simples:</p>
+            <pre><code class="language-js"><xmp>#include <stdio.h>
+#include <conio.h>
+#include <stdlib.h>
+#include <locale.h>
+int main(){
+    setlocale(LC_ALL, "portuguese");
+    int vec[10];
+    printf("Digite 10 Numeros:\n");
+    for(int i = 0; i < 10; i++){
+        scanf("%i", &vec[i]);
+    }
+    getch();
+}</xmp></code></pre>
+            <p class="text" id="channel-1">Tudo o que o programa deve fazer e ler 10 números do usuario e guarda-los em sua posição correta em <i class="hiBlue">vec[10]</i>.
+                Porém o programa poderia ser escrito assim que funcionaria do mesmo jeito:</p>
+            <pre><code class="language-js"><xmp>int vec[10];
+printf("Digite 10 Numeros:\n");
+    scanf("%i", &vec[0]);
+    scanf("%i", &vec[1]);
+    scanf("%i", &vec[2]);
+    scanf("%i", &vec[3]);
+    scanf("%i", &vec[4]);
+    scanf("%i", &vec[5]);
+    scanf("%i", &vec[6]);
+    scanf("%i", &vec[7]);
+    scanf("%i", &vec[8]);
+    scanf("%i", &vec[9]);</xmp></code></pre>
+            <p class="text">O que seria uma péssima ideia se tivermos que repetir o mesmo porém com um vetor de 100 posições. Para evitar
+                este tipo de coisa foram introduzidos os loops, que são estruturas de repetição programaveis que podem repetir
+                um bloco de codigo seguindo uma determinada logica, esta logica é escrita entre os <i class="hiBlue noDec">( ; ; )</i>                da função:</p>
+            <pre><code class="language-js"><xmp> for ( int i = 0 ; i < 10 ; i++) {
+    scanf("%i", &vec[i]);
+}</xmp></code></pre>
+            <p class="text">Este loop no caso vai rodar o codigo dentro dos <i class="hiBlue noDec">{ }</i> 10 vezes, mais poderia ser quantas
+                vezes forem nessesarias.<br>Os for loop sempre servem para repetir um trecho de codigo, mudando apenas uma variavel, seja para mudar a posição de um vetor, ou para fazer contas tipo f(x).</p>
+            <h1 class="subtitle">Variavel de contagem</h1>
+            <div class="smallLine"></div><br>
+            <style>
+                .hide {
+                    color: #555
+                }
+            </style>
+            <pre><code class="language-js" id="n1"><xmp> for ( int i = 0; i < 10 ; i++) {
+    scanf("%i", &vec[i]);
+}</xmp></code></pre>
+            <script>
+                setTimeout(_ => {
+                    let code = C$('n1')
+                    for (let i = 0; i < code.children.length; i++) {
+                        let c = code.children[i]
+                        if (!utils.isEqualToAny(i, [2, 3, 4, 5, 22])) {
+                            c.className = "hide"
+                        }
+                    }
+                }, 1000)
+            </script>
+            <p class="text"> A primeira parte do for loop e a variavel de contagem, e sobre ela que o for loop ira agir e aplicar seu efeito
+                ao bloco de codigo. A variavel de contagem pode ter qualquer nome (dentro das regras) e é comum inicializarmos
+                esta variavel a 0, porém é possivel inicializa-la com qualquer valor, caso voccê queira um loop que va de
+                100 a 200 por exemplo.<br>Dentro do for loop a variavel esta mudando o indice do vetor para o valor do usuario
+                ir para uma posição diferente, Nós podemos usa-la quantas vezes forem nessesarias dentro do for loop, ela
+                não serve apenas para trocar indices de vetores. Ela é apenas um numero comum, como deveria ser <a class="teleport"
+                    href="#channel-1">aqui.</a></p>
+            <h1 class="subtitle">Condição</h1>
+            <div class="smallLine"></div><br>
+            <pre><code class="language-js" id="n2"><xmp> for ( int i = 0; i < 10 ; i++) {
+    scanf("%i", &vec[i]);
+}</xmp></code></pre>
+            <script>
+                setTimeout(_ => {
+                    let code2 = C$('n2')
+                    for (let i = 0; i < code2.children.length; i++) {
+                        let c = code2.children[i]
+                        if (!utils.isEqualToAny(i, [7, 8, 9])) {
+                            c.className = "hide"
+                        }
+                    }
+                }, 1000)
+            </script>
+            <p class="text">A segunda parte do for loop é uma condição, ela é executada uma vez por iteração do loop, enquanto ela for true,
+                o loop continuará, e irá parar quando for false, por isto é bom tomar cuidado para não criar loops infinitos.
+                Eis alguns exemplos.</p>
+            <pre><code class="language-js" id="n2"><xmp>for(int i = 0; true; i++){
+    //Este loop nunca ira parar pois a conição sempre  ser true
+    printf("%i", i);
+}
+
+for(int i = 0; i <= 10; i--){
+    //Este nunca ira parar pois a condição espera i ser menor ou igual
+    //a 10, o que nunca irá acontecer pois o loop anda para trás (note o i--)
+    printf("%i", i);
+    //irá imprimir
+    //0,-1,-2,-3...
+}
+
+for(int i = 0; i < 100; i++){
+    //Este por si só funciona, porém o codigo tem um processamento
+    //que faz o loop voltar para 0 
+    if(i >= 99){
+        i = 0;
+    }   
+    printf("%i", i);
+    //Isto pode acontecer por causa de confusões com nomes de variaveis
+    //Ou por processamentos mal programados
+}
+
+for(int i = 0; !(i == 50); i+=3){
+    //A ideia deste loop seria parar exatamente em 50
+    //porem o incremento está de 3 em 3, logo i nunca será 50
+    printf("%i", i);
+    //irá imprimir
+    //0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54...
+}</xmp></code></pre>
+            <p class="text">Loops infinitos não são tão perigosos assim em programas simples em c++, porém esses loops em programas complexos
+                podem acabar usando muitos recursos do computador, em outras linguagems como javascript os loops infinitos
+                travam completamente o seu navegador e deixam o computador bastante lento. (eu mesmo escrevi alguns enquato
+                escrevia esta pagina)</p>
+            <h1 class="subtitle">Incremento</h1>
+            <div class="smallLine"></div><br>
+            <pre><code class="language-js" id="n3"><xmp> for ( int i = 0; i < 10 ; i++) {
+    printf("%i", i);
+}</xmp></code></pre>
+            <script>
+                setTimeout(_ => {
+                    let code3 = C$('n3')
+                    for (let i = 0; i < code3.children.length; i++) {
+                        let c = code3.children[i]
+                        if (!utils.isEqualToAny(i, [11, 12, 13, 22])) {
+                            c.className = "hide"
+                        }
+                    }
+                }, 1000)
+            </script>
+            <p class="text">O incremento é uma das partes mais importantes do loop, é ela que diz como que a variavel de contagem deve se
+                portar no decorrer do programa e é ela que faz com que a condição uma hora chegue em false.<br>E até que
+                facil entender seu funcionamento, desde que a condição do loop uma hora chegue em false.</p>
+            <pre><code class="language-js" id="n3"><xmp>for(int i = 0; i <= 1000; i+=2){
+    //Um loop que conta em incrementos de 2
+    printf("%i", i);
+}
+for(int i = 0; i >= 1000; i-=4 ){
+    //Um loop que conta em decrementos de 4
+    printf("%i", i);
+    //Note a condição i >= 100 (enquato i for menor ou iqual a 1000)
+}
+for(int i = 0; i <= 1000; i*=4 ){
+    //Um loop que a cada incremento multiplica i por 4 
+    printf("%i", i);
+    //Note a condição i >= 100 (enquato i for menor ou iqual a 1000)
+}
+for(int i = 0; i <= 1000; i % 2 == 0 ? i+=6 : i+=3 ){
+    /*Um loop que toda vez checa se i é par
+    se for ira somar + 6 a i
+    se não ira somar + 3 a i
+    printf("%i", i);
+}</xmp></code></pre>
+            <p class="text">Esse ultimo foi um tanto quanto estranho. Isso porque nas areas de comparação e incremento podemos colocar qualquer
+                <a target="_blank" href="https://stackoverflow.com/questions/7479946/whats-an-expression-and-expression-statement-in-c" class="externalTeleport">expressão</a>.<br>Os
+                simbolos <i class="hiBlue">? :</i> são um <i class="hiBlue">if / else</i> na forma de epressão, sua sinatxe
+                é bem simples:</p>
+            <pre><code class="language-js" id="n3"><xmp>int test = 0;
+printf("Digite um número");
+scanf("%i", &test);
+
+    test % 2 == 0 ? printf("Par") : printf("Impar");
+
+    //Que é o mesmo que
+
+    if(test % 2 == 0){
+        printf("Par");
+    }else{
+        printf("Impar");
+    }</xmp></code></pre>
+            <p class="text">Mas não se preocupe com isso pois em todo esse tempo eu nunca vi um for loop ser escrito assim. mas é perfeitamente
+                possivel, Por isso fique com os for antigos mesmo.</p>
+        </div>
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+    </div>
+</body>
+<script src="./../../main.js"></script>
+
+</html>

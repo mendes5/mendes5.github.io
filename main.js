@@ -1,5 +1,5 @@
 const canvas = C$("canvas")
-
+let frameHandle;
 onresize = _ => {
     canvas.width = innerWidth
     canvas.height = innerHeight
@@ -46,7 +46,7 @@ class DotTicker {
 const dots = utils.arrayOf(13, DotTicker)
 
 ctx.fillStyle = "#c0c0c0"
-ctx.strokeStyle = "rgba(30,30,30,0.3)"
+ctx.strokeStyle = "rgba(30,30,30,0.1)"
 
 const s = new DotTicker()
 
@@ -59,7 +59,7 @@ const rColor = utils.randomOf([
     "#D291EB","#6ADE51",
 ])
 
-utils.loop(_ => {
+let l = utils.loop(_ => {
     ctx.fillStyle = "#c0c0c0"
     ctx.clearRect(0, 0, innerWidth, innerHeight)
     ctx.beginPath()
