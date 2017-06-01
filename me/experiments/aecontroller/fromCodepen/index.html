@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            margin: 0px;
+            overflow: hidden;
+            background: #000;
+        };
+    </style>
+    <script src="./js/gl-matrix.js"></script>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+
+    <script>
+        //Main:
+        function main(resources) {
+            let angleX = 20,
+                angleY = 30,
+                currentX = 0,
+                currentY = 0,
+                angle = 0,
+                timer = 0,
+                i = 1
+
+            const textures = [
+                resources[0],
+                resources[1],
+                resources[2],
+                resources[3],
+                resources[4],
+                resources[5],
+                resources[6],
+                resources[7],
+                resources[8],
+                resources[9],
+                resources[10],
+                resources[11]
+            ],
+                shaders = [
+                    "precision mediump float; varying vec2 fUV; uniform sampler2D sampler; void main(){ gl_FragColor = texture2D(sampler, fUV);}",
+                    "precision mediump float; attribute vec3 aPos; attribute vec2 aUV; varying vec2 fUV; uniform mat4 mWorld; uniform mat4 mView; uniform mat4 mProj; void main(){ fUV = aUV; gl_Position = mProj * mView * mWorld * vec4(aPos, 1.0); }"
+                ]
+            gl = document
+                .getElementById('canvas')
+                .getContext('webgl')
+                .resize(window.innerWidth, window.innerHeight)
+
+            gl.canvas.onmousemove = e => {
+                angleX = e.x + (-gl.canvas.width / 2)
+                angleY = e.y + (-gl.canvas.height / 2)
+            }
+
+            gl.clearColor(0, 0, 0, 1.0)
+            gl.enable(gl.DEPTH_TEST)
+            gl.enable(gl.CULL_FACE)
+
+            const program = createShaderProgram(gl,
+                shaders[1],
+                shaders[0],
+            )
+            gl.useProgram(program);
+
+            const buffer = createArrayBuffer(gl, [
+                //X,  Y,  Z, U, V
+                -1.0, +1.0, -1.0, 0, 0,
+                -1.0, +1.0, +1.0, 0, 1,
+                +1.0, +1.0, +1.0, 1, 1,
+                +1.0, +1.0, -1.0, 1, 0,
+                -1.0, +1.0, +1.0, 0, 0,
+                -1.0, -1.0, +1.0, 1, 0,
+                -1.0, -1.0, -1.0, 1, 1,
+                -1.0, +1.0, -1.0, 0, 1,
+                +1.0, +1.0, +1.0, 1, 1,
+                +1.0, -1.0, +1.0, 0, 1,
+                +1.0, -1.0, -1.0, 0, 0,
+                +1.0, +1.0, -1.0, 1, 0,
+                +1.0, +1.0, +1.0, 1, 1,
+                +1.0, -1.0, +1.0, 1, 0,
+                -1.0, -1.0, +1.0, 0, 0,
+                -1.0, +1.0, +1.0, 0, 1,
+                +1.0, +1.0, -1.0, 0, 0,
+                +1.0, -1.0, -1.0, 0, 1,
+                -1.0, -1.0, -1.0, 1, 1,
+                -1.0, +1.0, -1.0, 1, 0,
+                -1.0, -1.0, -1.0, 1, 1,
+                -1.0, -1.0, +1.0, 1, 0,
+                +1.0, -1.0, +1.0, 0, 0,
+                +1.0, -1.0, -1.0, 0, 1,
+            ])
+
+            const pos = setPointer(gl, program, buffer, 'aPos', 3, 5, 0)
+            const textureCoord = setPointer(gl, program, buffer, 'aUV', 2, 5, 3)
+
+            const boxIndex = createElementArrayBuffer(gl, [
+                0, 1, 2,
+                0, 2, 3,
+                5, 4, 6,
+                6, 4, 7,
+                8, 9, 10,
+                8, 10, 11,
+                13, 12, 14,
+                15, 14, 12,
+                16, 17, 18,
+                16, 18, 19,
+                21, 20, 22,
+                22, 20, 23
+            ])
+
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, boxIndex)
+            gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
+
+            const boxTexture = gl.createTexture()
+            gl.bindTexture(gl.TEXTURE_2D, boxTexture)
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST)
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST)
+            gl.activeTexture(gl.TEXTURE0)
+
+            const mWorld = gl.getUniformLocation(program, 'mWorld'),
+                mView = gl.getUniformLocation(program, 'mView'),
+                mProj = gl.getUniformLocation(program, 'mProj'),
+                worldMatrix = mat4.identity(new Float32Array(16)),
+                viewMatrix = mat4.lookAt(new Float32Array(16), [0, 0, -8], [0, 0, 0], [0, 1, 0]),
+                projMatrix = mat4.perspective(new Float32Array(16), glMatrix.toRadian(45), gl.canvas.width / gl.canvas.height, 0.1, 1000),
+                xRotationMatrix = new Float32Array(16),
+                yRotationMatrix = new Float32Array(16),
+                identityMatrix = mat4.identity(new Float32Array(16))
+
+            gl.uniformMatrix4fv(mView, gl.FALSE, viewMatrix)
+
+            function loop() {
+                gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+                currentX += -angleX / 8000
+                currentY += angleY / 8000
+
+                mat4.rotate(xRotationMatrix, identityMatrix, currentX, [0, 1, 0])
+                mat4.rotate(yRotationMatrix, identityMatrix, currentY, [1, 0, 0])
+                mat4.mul(worldMatrix, xRotationMatrix, yRotationMatrix)
+                gl.uniformMatrix4fv(mWorld, gl.FALSE, worldMatrix)
+
+                if (timer++ > 4 && !(timer = 0))
+                    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, textures[i++ % textures.length])
+
+                gl.drawElements(gl.TRIANGLES, boxIndex.length, gl.UNSIGNED_SHORT, 0)
+                requestAnimationFrame(loop)
+            }
+            loop()
+
+            onresize = _ => {
+                gl.resize(window.innerWidth, window.innerHeight)
+                mat4.perspective(projMatrix, glMatrix.toRadian(45), gl.canvas.width / gl.canvas.height, 0.1, 1000.0)
+                gl.uniformMatrix4fv(mProj, gl.FALSE, projMatrix)
+            }
+            onresize()
+        }
+
+        //Helpers
+        WebGLRenderingContext.prototype.resize = function (width, height) {
+            this.viewport(0, 0, width, height)
+            this.canvas.width = width
+            this.canvas.height = height
+            return this
+        }
+
+        const getText = url => fetch(url).then(r => r.text())
+
+        const getImage = url => {
+            return new Promise((t, c) => {
+                fetch(url).then(data => {
+                    data.ok ? t(data.blob().then(b => {
+                        let res = document.createElement('img')
+                        res.src = URL.createObjectURL(b)
+                        return res
+                    })) : c('Falied to get image')
+                })
+            })
+        }
+        const makeShader = (gl, txt, type) => {
+            let shaderType
+            if (type === 'vertex') {
+                shaderType = 'VERTEX_SHADER'
+            } else if (type === 'fragment') {
+                shaderType = 'FRAGMENT_SHADER'
+            } else {
+                console.error(`The string: ${type} is not a shader type`)
+                return false
+            }
+            var shader = gl.createShader(gl[shaderType])
+            gl.shaderSource(shader, txt)
+            gl.compileShader(shader)
+            if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+                console.error(`ERROR compiling ${type} shader!`, gl.getShaderInfoLog(shader))
+                return
+            }
+            return shader
+        }
+        const createShaderProgram = (gl, vs, fs) => {
+            const program = gl.createProgram()
+            const vertexShader = makeShader(gl, vs, 'vertex')
+            const fragmentShader = makeShader(gl, fs, 'fragment')
+            gl.attachShader(program, vertexShader)
+            gl.attachShader(program, fragmentShader)
+            gl.linkProgram(program)
+            if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+                console.error('ERROR linking program!', gl.getProgramInfoLog(program))
+                return
+            }
+            gl.validateProgram(program)
+            if (!gl.getProgramParameter(program, gl.VALIDATE_STATUS)) {
+                console.error('ERROR validating program!', gl.getProgramInfoLog(program))
+                return
+            }
+            return program
+        }
+        const createArrayBuffer = (gl, data) => {
+            const buffer = gl.createBuffer()
+            gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), gl.STATIC_DRAW)
+            gl.bindBuffer(gl.ARRAY_BUFFER, null)
+            buffer.length = data.length
+            return buffer
+        }
+        const createElementArrayBuffer = (gl, data) => {
+            const buffer = gl.createBuffer()
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffer)
+            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(data), gl.STATIC_DRAW)
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null)
+            buffer.length = data.length
+            return buffer
+        }
+        const setPointer = (gl, program, buffer, name, nE, sI, oS) => {
+            gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
+            let pointer = gl.getAttribLocation(program, name)
+            gl.vertexAttribPointer(
+                pointer,
+                nE,
+                gl.FLOAT,
+                gl.FALSE,
+                sI * Float32Array.BYTES_PER_ELEMENT,
+                oS * Float32Array.BYTES_PER_ELEMENT
+            )
+            gl.enableVertexAttribArray(pointer)
+            gl.bindBuffer(gl.ARRAY_BUFFER, null)
+            return pointer
+        }
+
+        Promise.all([
+            getImage("https://cold-meson-06.github.io/assets/textures/BC_1.png"),
+            getImage("https://cold-meson-06.github.io/assets/textures/BC_2.png"),
+            getImage("https://cold-meson-06.github.io/assets/textures/BC_3.png"),
+            getImage("https://cold-meson-06.github.io/assets/textures/BC_4.png"),
+            getImage("https://cold-meson-06.github.io/assets/textures/BC_5.png"),
+            getImage("https://cold-meson-06.github.io/assets/textures/BC_6.png"),
+            getImage("https://cold-meson-06.github.io/assets/textures/BC_7.png"),
+            getImage("https://cold-meson-06.github.io/assets/textures/BC_8.png"),
+            getImage("https://cold-meson-06.github.io/assets/textures/BC_9.png"),
+            getImage("https://cold-meson-06.github.io/assets/textures/BC_10.png"),
+            getImage("https://cold-meson-06.github.io/assets/textures/BC_11.png"),
+            getImage("https://cold-meson-06.github.io/assets/textures/BC_12.png"),
+        ]).then(a => main(a))
+    </script>
+</body>
+
+</html>

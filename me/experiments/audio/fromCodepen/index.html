@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            margin: 0px;
+            background: #000;
+        }
+
+        canvas {
+            position: fixed;
+        }
+
+        #player {
+            font-family: "Segoe UI";
+            position: relative;
+            z-index: 2;
+            top: 10px;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        #controls {
+            color: #fff;
+            position: relative;
+            z-index: 2;
+            top: 40px;
+        }
+
+        img {
+            top: 8px;
+            position: relative;
+            margin: 0px;
+            margin-right: 3px;
+            height: 25px;
+        }
+
+        #textbox,
+        .btn {
+            color: #fff;
+            border: 2px #252526 solid;
+            background-color: #111;
+            padding: 3px;
+            outline: none;
+            transition: 500ms;
+        }
+
+        #textbox {
+            width: 300px;
+        }
+
+        .btn {
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #333;
+        }
+
+        #textbox:active,
+        .btn:active {
+            border: 2px #0f0 solid;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+    <center>
+        <div id="player">
+            <a target="_blank" href="https://soundcloud.com"><img src="https://a-v2.sndcdn.com/assets/images/sc-icons/favicon-2cadd14b.ico"/></a>
+            <input
+                id="textbox" value="https://soundcloud.com/lorenzobadioli/mistery-dungeon">
+                <input class="btn" type="button" value="play" onclick="play()">
+        </div>
+    </center>
+    <div id="controls" class="hide">
+        freq 0 <input id="freq" onchange="setFSelect()" type="range" min="0" max="360"> 360<br> speed -0.5 <input id="speed"
+            onchange="setSpeed()" type="range" min="-100" max="100"> 0.5
+    </div>
+
+    <script>
+        let x = 0, y = 0, tx = 0, ty = 0, r = 150, a = 0;
+        let fSelect = 20;
+        let context = new AudioContext()
+        let analyser = context.createAnalyser()
+        let times = new Uint8Array(360)
+        let input, audio, frameHandle, speed = -0.006
+
+        let textbox = document.getElementById('textbox')
+        let play = _ => {
+            let url = textbox.value
+            playFromSoundCloud(url)
+            lde();
+        }
+        let setSpeed = _ => {
+            speed = document.getElementById("speed").value / 1000
+        }
+        let setFSelect = _ => {
+            fSelect = document.getElementById("freq").value
+        }
+        let playFromSoundCloud = async function (url) {
+            cancelAnimationFrame(frameHandle)
+            if (audio) {
+                audio.pause()
+            }
+            let link = `https://api.soundcloud.com/resolve.json?url=${encodeURIComponent(url)}&client_id=17a992358db64d99e492326797fff3e8`
+            let result = await fetch(link).then(res => res.json()).then(json => json)
+            audio = document.createElement('audio')
+            audio.crossOrigin = "anonymous"
+            audio.src = `http://api.soundcloud.com/tracks/${result.id}/stream?client_id=17a992358db64d99e492326797fff3e8`
+            input = context.createMediaElementSource(audio)
+            input.connect(analyser)
+            input.connect(context.destination)
+            audio.play()
+            update()
+        }
+
+        let canvas = document.getElementById('canvas')
+        let ctx = canvas.getContext('2d')
+        ctx.fillStyle = 'black'
+
+        onresize = _ => {
+            hh = (canvas.height = innerHeight) / 2
+            ww = (canvas.width = innerWidth) / 2
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        };
+        onresize()
+        let update = _ => {
+            analyser.getByteFrequencyData(times);
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.beginPath();
+            r = times[fSelect] / 2.3;
+            ctx.strokeStyle = `hsl(${r},100%,50%)`;
+            a += speed;
+            for (var i = 0; i <= 360; i++) {
+                x = r * Math.cos(i + a) + ww;
+                y = r * Math.sin(i + a) + hh;
+                tx = (r + times[i]) * Math.cos(i + a) + ww;
+                ty = (r + times[i]) * Math.sin(i + a) + hh;
+                ctx.moveTo(x, y);
+                ctx.lineTo(tx, ty);
+            }
+            ctx.stroke();
+            frameHandle = requestAnimationFrame(update);
+        };
+
+        let lde = _ => {
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.beginPath();
+            r = 50;
+            ctx.strokeStyle = `hsl(${r},100%,50%)`;
+            a += speed;
+            for (var i = 0; i <= 360; i++) {
+                if (i % 5 === 1) {
+                    x = r * Math.cos(i + a) + ww;
+                    y = r * Math.sin(i + a) + hh;
+                    tx = (r + 30) * Math.cos(i + a) + ww;
+                    ty = (r + 30) * Math.sin(i + a) + hh;
+                    ctx.moveTo(x, y);
+                    ctx.lineTo(tx, ty);
+                }
+            }
+
+            ctx.stroke();
+            frameHandle = requestAnimationFrame(lde);
+        };
+        lde();
+
+    </script>
+</body>
+
+</html>

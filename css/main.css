@@ -198,3 +198,22 @@ a.externalTeleport{
     position: fixed;
     z-index: -9999;
 }
+.experiment{
+    border: 1px #444 solid;
+}
+.stopBG, .openExternal{
+    font-family: "Segoe UI";
+    color:#fff;
+    background-color: #222;
+    width:100px;
+    height:40px;
+    text-decoration: none;
+    font-size: 17px;
+    border:#555 1px solid;
+    padding:3px;
+    margin-left:15%;
+}
+.stopBG{
+    top:3px;
+    cursor: pointer;
+}

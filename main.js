@@ -1,12 +1,15 @@
 const canvas = C$("canvas")
 let frameHandle;
+
+const ctx = canvas.getContext("2d");
+
 onresize = _ => {
     canvas.width = innerWidth
     canvas.height = innerHeight
+    ctx.strokeStyle = "rgba(30,30,30,0.1)"
 }
 onresize()
 
-const ctx = canvas.getContext("2d");
 
 ctx.circle = (x = 0, y = 0, r = 5) => {
     ctx.beginPath()

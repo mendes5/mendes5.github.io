@@ -1,0 +1,91 @@
+{
+    //sadsd
+    "TODO": {
+        "priority 1": {
+            "desc": "Create the UnitQuad and use them as unique vertex array",
+            "completed": false
+        },
+        "priority 2": {
+            "desc": "Fix Uniforms and Attributes managers, They only work with Floats32",
+            "completed": true,
+            "reason":"Is the user that choice the array type"
+        },
+        "priority 3": {
+            "desc": "Fix Memory Heap and Analyze impact of binded functions",
+            "completed": false
+        },
+        "priority 4": {
+            "desc": "Fix function paramter overloading in the UnifomrArrayManager",
+            "completed": false
+        },
+        "priority 5": {
+            "desc": "Replace plain array math by WebAssembly Math",
+            "completed": true,
+            "reason": "WebAssemby is unreliable now, using ES6 Plain math"
+        },
+        "priority 6": {
+            "desc": "Better analyze the implementation of the Uniform array manager",
+            "completed": false
+        },
+        "priority 7": {
+            "desc": "Remove useless pointers in attrib/uniform managers",
+            "completed": false
+        },
+        "priority 8": {
+            "desc": "Fix the texture loading system",
+            "completed": false
+        },
+        "priority 9": {
+            "desc": "Add alpha equation",
+            "completed": false
+        },
+        "priority 10": {
+            "desc": "Fix the orientation system in the quad",
+            "completed": false
+        },
+        "priority 11": {
+            "desc": "Better analyze the implementation of the main vertex shader math",
+            "completed": false
+        },
+        "priority 12": {
+            "desc": "Add all valid property and methods to the state",
+            "completed": false
+        },
+        "priority 13": {
+            "desc": "Improve Error Handling",
+            "completed": false
+        },
+        "priority 14": {
+            "desc": "Make this fully abstract",
+            "completed": false
+        },
+        "priority 15": {
+            "desc": "Add the global shader or the material managment",
+            "completed": false
+        },
+        "priority 16": {
+            "desc": "Add the global shader or the material managment",
+            "completed": false
+        },
+        "priority 17": {
+            "desc": "Give decent names to variables",
+            "completed": false
+        },
+        "priority 18": {
+            "desc": "Handle multiple textures",
+            "completed": false
+        },
+        "priority 19": {
+            "desc": "Add dictionary functions to 'getDataOfType','typeToEnum','setUniformFactory'. ",
+            "completed": false
+        },
+        "priority 20": {
+            "desc": "Handle direct shader update ",
+            "completed": false
+        },
+        "priority 21": {
+            "desc": "Implement index buffers ",
+            "completed": false
+        }
+    }
+}
