@@ -2,7 +2,7 @@
 Cold's (Fernando M.) Public website
 
 [Live version](https://cold-meson-06.github.io/)
-###### Sorry About that
+###### Constains WebGL Things and Stuff
 
-(00.000% Completed, (Testing Only (Serious)))
+(00.001% Completed, (Testing Only (Serious)))
 
