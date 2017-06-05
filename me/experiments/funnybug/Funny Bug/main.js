@@ -287,22 +287,26 @@ class Grid {
         r = r + 1
         const vert = []
         for (let x of range(r)) {
-            vert.push(0)
-            vert.push(0)
-            vert.push(x * s)
-            vert.push(1)
-            vert.push((r - 1) * s)
-            vert.push(0)
-            vert.push(x * s)
-            vert.push(1)
-            vert.push(x * s)
-            vert.push(0)
-            vert.push(0)
-            vert.push(1)
-            vert.push(x * s)
-            vert.push(0)
-            vert.push((r - 1) * s)
-            vert.push(1)
+            //Line 1 
+            vert.push(0)                    //x
+            vert.push(Math.sin(x * s) * 20) //y
+            vert.push(x * s)                //z
+            vert.push(1)                    //w
+            //Line 2 
+            vert.push((r - 1) * s)          //x
+            vert.push(Math.sin(x * s) * 20) //y
+            vert.push(x * s)                //z
+            vert.push(1)                    //w
+            //Line 3
+            vert.push(x * s)                //x
+            vert.push(Math.sin(x * s) * 20) //y
+            vert.push(0)                    //z
+            vert.push(1)                    //w
+            //Line 4
+            vert.push(x * s)                //x
+            vert.push(Math.sin(x * s) * 20) //y
+            vert.push((r - 1) * s)          //z
+            vert.push(1)                    //w
         }
         this.translate(-((r * s) / 2), this.postition[1], -((r * s) / 2))
         this.vertexData = new Float32Array(vert)
