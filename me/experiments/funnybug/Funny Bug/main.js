@@ -285,26 +285,28 @@ class Grid {
     }
     updateGrid(r = 1, s = 1) {
         r = r + 1
+        let i = 0;
         const vert = []
         for (let x of range(r)) {
             //Line 1 
+            
             vert.push(0)                    //x
-            vert.push(Math.sin(x * s) * 20) //y
+            vert.push(Math.sin(x ) * 20)    //y
             vert.push(x * s)                //z
             vert.push(1)                    //w
             //Line 2 
             vert.push((r - 1) * s)          //x
-            vert.push(Math.sin(x * s) * 20) //y
+            vert.push(Math.cos(x ) * 20)    //y
             vert.push(x * s)                //z
             vert.push(1)                    //w
             //Line 3
             vert.push(x * s)                //x
-            vert.push(Math.sin(x * s) * 20) //y
+            vert.push(Math.sin(x ) * 20)    //y
             vert.push(0)                    //z
             vert.push(1)                    //w
             //Line 4
             vert.push(x * s)                //x
-            vert.push(Math.sin(x * s) * 20) //y
+            vert.push(Math.cos(x ) * 20)    //y
             vert.push((r - 1) * s)          //z
             vert.push(1)                    //w
         }
