@@ -502,6 +502,25 @@ const ColdVector = (function () {
                 'points': points,
             }, att));
         };
+        addPoint(x, y){
+            let point = this.context.element.createSVGPoint()
+            point.x = x
+            point.y = y
+            this.element.points.appendItem(point)
+            return this
+        };
+        setPointPosition(index, x, y){
+            let point = this.element.points.getItem(index)
+            point.x = x
+            point.y = y
+            return this
+        };
+        setLastPointPos(x, y){
+            let point = this.element.points.getItem(this.element.points.length - 1)
+            point.x = x
+            point.y = y
+            return this
+        }
     };
     class Polygon extends MatrixBase {
         constructor(points = '0,0 10,10 0,10', att = {}) {
