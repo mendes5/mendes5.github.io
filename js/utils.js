@@ -12,7 +12,31 @@ const utils = (_ => {
 
     const _canvas = document.createElement('canvas').getContext('2d')
 
-
+    let New2DGrid = function(x, y, increment){
+        return {
+            _:{
+                currentX:0,
+                currentY:0,
+                maxX:x,
+                maxY:y,
+                increment:increment
+            },
+            x(){
+                if ((this._.currentX += this._.increment) > this._.maxX){
+                    this._.currentY += this._.increment
+                    console.log('a',this)
+                    return this._.currentX = 0
+                }else{
+                    console.log('b',this)
+                    return this._.currentX
+                }
+            },
+            y(){
+                return this._.currentY
+            }
+        }
+    }
+    
     const getRandRGB = () => {
         _canvas.fillStyle = `hsl(${random(360)}, 100%, 50%)`
         return hexToRgb(_canvas.fillStyle.slice(1))
