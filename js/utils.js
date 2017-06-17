@@ -12,31 +12,14 @@ const utils = (_ => {
 
     const _canvas = document.createElement('canvas').getContext('2d')
 
-    let New2DGrid = function(x, y, increment){
-        return {
-            _:{
-                currentX:-increment,
-                currentY:-increment,
-                maxX:x,
-                maxY:y,
-                increment:increment
-            },
-            x(){
-                if ((this._.currentX += this._.increment) > this._.maxX){
-                    this._.currentY += this._.increment
-                    console.log('a',this)
-                    return this._.currentX = 0
-                }else{
-                    console.log('b',this)
-                    return this._.currentX
-                }
-            },
-            y(){
-                return this._.currentY
+   const Grid2DIterator = (x, ix, y, iy, fn) => {
+        for(let ny = 0; ny <= y; ny += iy){
+            for(let nx = 0; nx <= x; nx += ix){
+                fn(nx, ny)
             }
         }
-    }
-    
+   }
+
     const getRandRGB = () => {
         _canvas.fillStyle = `hsl(${random(360)}, 100%, 50%)`
         return hexToRgb(_canvas.fillStyle.slice(1))
@@ -408,7 +391,7 @@ const utils = (_ => {
     }
 
     return Object.assign({
-        New2DGrid,
+        Grid2DIterator,
         getRandRGB,
         getRandHEX,
         hexToRgb,
