@@ -32,6 +32,8 @@ const ColdVector = (function () {
             filter.appendChild(shadow)
             filter.id = newUUID()
             filter.setAttributeNS(null, 'id', filter.id)
+            filter.setAttributeNS(null, 'height', '200%')
+            filter.setAttributeNS(null, 'width', '200%')
             return {
                 data : {filter, shadow},
                 applyTo(svgE){
