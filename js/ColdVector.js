@@ -21,7 +21,27 @@ const ColdVector = (function () {
     };
 
     const ns = 'http://www.w3.org/2000/svg';
-
+    
+    const Filters = {
+        shadowFilter(dx, dy, dev){
+            let filter = document.createElementNS(ns, 'filter');
+            let shadow = document.createElementNS(ns, 'feDropShadow');
+            shadow.setAttributeNS(null, 'dx', dx)
+            shadow.setAttributeNS(null, 'dy', dy)
+            shadow.setAttributeNS(null, 'stdDeviation=', dev)
+            filter.appendChild(shadow)
+            filter.id = newUUID()
+            filter.setAttributeNS(null, 'id', filter.id)
+            this.
+            return {
+                data : {filter, shadow},
+                applyTo(svgE){
+                    (svgE.element || svgE).setAttributeNS(null, 'filter', `url(#${filter.id})`);
+                },
+            }
+        }
+    }
+    
     class SVGCanvas {
         constructor(x, y) {
             const self = this;
@@ -46,6 +66,11 @@ const ColdVector = (function () {
             this.element.setAttributeNS(null, 'width', x);
             this.element.setAttributeNS(null, 'height', y);
             return this;
+        };
+        createShadowFilter(dx, dy, deviation){
+            let element = Filters.shadowFilter(dx, dy, deviation)
+            this.addDefinition(element.data.filter)
+            return element
         };
         addDefinition(def) {
             this.definitions.appendChild(def.element || def);
@@ -130,6 +155,7 @@ const ColdVector = (function () {
             return svgE;
         };
     };
+
     const getSVGCanvas = {
         blank(x, y) {
             return new SVGCanvas(x, y);
@@ -164,6 +190,9 @@ const ColdVector = (function () {
                 set: (target, name, value) => { return self.element.setAttributeNS(null, name, value) }
             });
             setAttributes(this.attributes, attribs);
+        };
+        setFilter(url){
+            this.element.setAttributeNS(null, 'filter', '#' + (typeof url === 'string' ? url : url.element.id));
         };
         setParent(svgE) {
             (svgE.element || svgE).appendChild(this.element);
@@ -336,6 +365,7 @@ const ColdVector = (function () {
             this.rotation = this.rotation
         }
     };
+
     class Group extends MatrixBase {
         constructor(svgs, att = {}) {
             super('g', att);
