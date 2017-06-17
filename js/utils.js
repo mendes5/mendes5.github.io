@@ -408,6 +408,7 @@ const utils = (_ => {
     }
 
     return Object.assign({
+        New2DGrid,
         getRandRGB,
         getRandHEX,
         hexToRgb,
