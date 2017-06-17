@@ -37,7 +37,11 @@ const ColdVector = (function () {
             return {
                 data : {filter, shadow},
                 applyTo(svgE){
-                    (svgE.element || svgE).setAttributeNS(null, 'filter', `url(#${filter.id})`);
+                    if(Array.isArray(svgE)){
+                        svgE.map(e => (e.element || e).setAttributeNS(null, 'filter', `url(#${filter.id})`))
+                    }else{
+                        (svgE.element || svgE).setAttributeNS(null, 'filter', `url(#${filter.id})`);
+                    }
                 },
             }
         }
