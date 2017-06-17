@@ -497,10 +497,16 @@ const ColdVector = (function () {
         };
     };
     class Polyline extends MatrixBase {
-        constructor(points = "20,100 40,60 70,80 100,20", att) {
+        constructor(points = "", att) {
             super('polyline', Object.assign({
                 'points': points,
             }, att));
+        };
+        clear(){
+            while (this.element.points.numberOfItems > 0){
+	            this.element.points.removeItem(0)
+            }
+            return this
         };
         addPoint(x, y){
             let point = this.context.element.createSVGPoint()
