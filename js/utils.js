@@ -12,9 +12,11 @@ const utils = (_ => {
 
     const _canvas = document.createElement('canvas').getContext('2d')
 
-   const Grid2DIterator = (x, ix, y, iy, fn) => {
-        for(let ny = 0; ny <= y; ny += iy){
-            for(let nx = 0; nx <= x; nx += ix){
+   const Grid2DIterator = (x, y, fn) => {
+       x--
+       y--
+        for(let ny = 0; ny <= y; ny ++){
+            for(let nx = 0; nx <= x; nx ++){
                 fn(nx, ny)
             }
         }
