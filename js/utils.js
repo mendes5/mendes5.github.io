@@ -15,8 +15,8 @@ const utils = (_ => {
     let New2DGrid = function(x, y, increment){
         return {
             _:{
-                currentX:0,
-                currentY:0,
+                currentX:-increment,
+                currentY:-increment,
                 maxX:x,
                 maxY:y,
                 increment:increment
