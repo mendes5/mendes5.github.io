@@ -28,7 +28,7 @@ const ColdVector = (function () {
             let shadow = document.createElementNS(ns, 'feDropShadow');
             shadow.setAttributeNS(null, 'dx', dx)
             shadow.setAttributeNS(null, 'dy', dy)
-            shadow.setAttributeNS(null, 'stdDeviation=', dev)
+            shadow.setAttributeNS(null, 'stdDeviation', dev)
             filter.appendChild(shadow)
             filter.id = newUUID()
             filter.setAttributeNS(null, 'id', filter.id)
