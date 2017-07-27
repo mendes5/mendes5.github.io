@@ -1,5 +1,39 @@
 //I like of these as globals
-const C$ = str => document.getElementById(str);
+const log = (...lod) => {
+    lod.map(o => console.log(o))
+}
+Object.defineProperty(window, 'cls', {
+    get(x, y, z) {
+        console.clear()
+    },
+    set(x, y, z) {
+        console.clear()
+    }
+});
+
+(_ => {
+    const selfStyle = document.createElement('style')
+    selfStyle.textContent =
+        `.domPrint{
+        font-size:16px;
+        font-family:"Segoe UI";
+        margin:0px;
+        padding:2px;
+    }
+    .domPrint > p{
+        margin:2px;        
+    }`
+    document.head.appendChild(selfStyle)
+})()
+
+const domPrint = (title, text) => {
+    const field = document.createElement('fieldset')
+    field.className = 'domPrint'
+    field.innerHTML = `<legend>${title}</legend><p>${text}</p>`
+    document.body.appendChild(field)
+}
+
+const C$ = (str = 'html', all = false) => !all ? document.querySelector(str) : document.querySelectorAll(str);
 const Sin = Math.sin
 const Cos = Math.cos
 
@@ -12,15 +46,6 @@ const utils = (_ => {
 
     const _canvas = document.createElement('canvas').getContext('2d')
 
-   const Grid2DIterator = (x, y, fn) => {
-       x--
-       y--
-        for(let ny = 0; ny <= y; ny ++){
-            for(let nx = 0; nx <= x; nx ++){
-                fn(nx, ny)
-            }
-        }
-   }
 
     const getRandRGB = () => {
         _canvas.fillStyle = `hsl(${random(360)}, 100%, 50%)`
@@ -54,6 +79,13 @@ const utils = (_ => {
 
     const random = (v) => Math.floor(Math.random() * v)
 
+    const getTexture = url => {
+        return fetch(url, { mode: 'no-cors' }).then(r => r.blob().then(r => {
+            let tag = document.createElement('img')
+            tag.src = URL.createObjectURL(r)
+            return tag
+        }))
+    }
 
     //By 'Francisc'
     //http://stackoverflow.com/questions/4959975/generate-random-number-between-two-numbers-in-javascript
@@ -61,28 +93,124 @@ const utils = (_ => {
 
     const randomOf = (obj, _) => Array.isArray(obj) ? obj[randIntBetw(0, obj.length - 1)] : (_ = Object.keys(obj), obj[_[randIntBetw(0, _.length)]])
 
-    const createCanvas = (w, h, auto = true) => {
-        const canvas = document.createElement('canvas')
-        if (!w) {
-            document.body.style.margin = '0px'
-            canvas.style.display = 'block'
-            w = canvas.height = window.innerHeight
-            h = canvas.width = window.innerWidth
-        } else {
-            canvas.height = h
-            canvas.width = w
+    const extendContext2D = ctx => Object.assign(ctx, {
+        clear() {
+            this.clearRect(0, 0, this.canvas.width, this.canvas.height)
+        },
+        strokeCircle(x = 0, y = 0, r = 0) {
+            this.beginPath()
+            this.ellipse(x, y, r, r, 0, 0, Math.TWO_PI)
+            this.stroke()
+        },
+        fillCircle(x = 0, y = 0, r = 0) {
+            this.beginPath()
+            this.ellipse(x, y, r, r, 0, 0, Math.TWO_PI)
+            this.fill()
+        },
+        _circle(x = 0, y = 0, r = 0) {
+            this.ellipse(x, y, r, r, 0, 0, Math.TWO_PI)
         }
-        auto && document.body.appendChild(canvas)
-        const ctx = canvas.getContext('2d')
-        ctx.clear = () => {
-            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+    })
+
+
+    const extendContext3D = gl => Object.assign(gl, {
+        resize(x = 0, y = 0) {
+            this.viewport(0, 0, x, y)
+            this.canvas.width = x
+            this.canvas.height = y
+        },
+        fitToScreen() {
+            gl.viewport(
+                0, 0,
+                this.canvas.width = innerWidth,
+                this.canvas.height = innerHeight
+            )
+        },
+        fitToParent() {
+            gl.viewport(
+                0, 0,
+                this.canvas.width = this.canvas.parentElement.clientWidth,
+                this.canvas.height = this.canvas.parentElement.clientHeight
+            )
+        },
+        getSize() {
+            return [this.canvas.width, this.canvas.height]
         }
-        ctx.circle = (x = 0, y = 0, r = 5) => {
-            ctx.beginPath()
-            ctx.ellipse(x, y, r, r, 0, 0, Math.TWO_PI)
-            ctx.fill()
+    })
+
+
+    const extendCanvas = canvas => {
+        canvas.resize = function (x = 0, y = 0) {
+            this.width = x
+            this.height = y
+            return this
         }
-        return ctx
+        canvas.fitToParent = function () {
+            this.width = this.parentElement.clientWidth
+            this.height = this.parentElement.clientHeight
+            return this
+        }
+        canvas.fitToScreen = function () {
+            this.width = innerWidth
+            this.height = innerHeight
+            return this
+        }
+        canvas.get2D = function () {
+            if (this.mode === undefined) {
+                this.mode = 'CanvasRenderingContext2D'
+                return extendContext2D(this.getContext('2d'))
+            } else {
+                console.error(`This canvas aleardy is an ${this.mode} and cannot be turned on a 'CanvasRenderingContext2D.`)
+                console.error(this)
+                return null
+            }
+        }
+        canvas.getGL = function () {
+            if (this.mode === undefined) {
+                this.mode = 'WebGLRenderingContext'
+                let gl = this.getContext('webgl')
+                if (!gl) {
+                    console.error('WebGL not supported in this browser.')
+                    return null
+                }
+                return extendContext3D(gl)
+            } else {
+                console.error(`This canvas aleardy is an ${this.mode} and cannot be turned on a 'WebGLRenderingContext.`)
+                console.error(this)
+                return null
+            }
+        }
+        canvas.getGL2 = function () {
+            if (this.mode === undefined) {
+                this.mode = 'WebGL2RenderingContext'
+                let gl2 = this.getContext('webgl2')
+                if (!gl2) {
+                    console.error('WebGL 2 not supported in this browser version.')
+                    return null
+                }
+                return extendContext3D(gl2)
+            } else {
+                console.error(`This canvas aleardy is an ${this.mode} and cannot be turned on a 'WebGL2RenderingContext.`)
+                console.error(this)
+                return null
+            }
+        }
+        return canvas
+    }
+
+    const getCanvas = {
+        fromId(id) {
+            const canvas = C$(id)
+            return extendCanvas(canvas)
+        },
+        fromClass(name, index = 0) {
+            const canvas = C$(name, true)
+            return extendCanvas(canvas[index])
+        },
+        creatingIt() {
+            const canvas = document.createElement('canvas')
+            return extendCanvas(canvas)
+        }
     }
 
     const getText = (url) => fetch(url, { mode: 'no-cors' }).then(r => r.text())
@@ -211,7 +339,11 @@ const utils = (_ => {
         items.map(_i_ => !res && (res = (_i_ === input)))
         return res
     }
-
+    const contains = (arr, value)=>{
+        let res = false
+        arr.map(val => val === value && (res = true))
+        return res
+    }
     const hasAllStrings = (input, strArr = []) => {
         let res = true
         strArr.map(val => !input.includes(val) && (res = false))
@@ -365,7 +497,7 @@ const utils = (_ => {
         return await fetch('test.json').then(r => r.json())
     }
 
-    let loop = (fn, hd) => {
+    let loop = fn => {
         let handle;
         let stoped = false;
         let lp = function (dt) {
@@ -376,7 +508,7 @@ const utils = (_ => {
         let result = {
             stop: _ => cancelAnimationFrame(handle),
             play: _ => lp(),
-            toggle: _ => (stoped = !stoped) ? result.stop():result.play() 
+            toggle: _ => (stoped = !stoped) ? result.stop() : result.play()
         }
         return result
     }
@@ -393,7 +525,9 @@ const utils = (_ => {
     }
 
     return Object.assign({
-        Grid2DIterator,
+        extendCanvas,
+        extendContext2D,
+        extendContext3D,
         getRandRGB,
         getRandHEX,
         hexToRgb,
@@ -401,7 +535,7 @@ const utils = (_ => {
         UUID,
         random,
         randIntBetw,
-        createCanvas,
+        getCanvas,
         getText,
         getJSON,
         getBlob,
@@ -424,7 +558,9 @@ const utils = (_ => {
         arrayOf,
         arrayBy,
         randomOf,
-        playFromSoundCloud
+        playFromSoundCloud,
+        getTexture,
+        contains,
     }, {
             //By 'Keith Peters' 2007 (colorized)
             //https://github.com/bit101
