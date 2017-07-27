@@ -145,6 +145,10 @@ const utils = (_ => {
             this.height = y
             return this
         }
+        canvas.setParent(element = document.body) = function(){
+            element.appendChild(canvas)
+            return this
+        }
         canvas.fitToParent = function () {
             this.width = this.parentElement.clientWidth
             this.height = this.parentElement.clientHeight
