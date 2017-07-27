@@ -145,7 +145,7 @@ const utils = (_ => {
             this.height = y
             return this
         }
-        canvas.setParent(element = document.body) = function(){
+        canvas.setParent = function(element = document.body){
             element.appendChild(canvas)
             return this
         }
