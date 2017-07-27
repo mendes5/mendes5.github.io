@@ -523,8 +523,19 @@ const utils = (_ => {
 
         return { audio, result }
     }
-
+   const Grid2DIterator = (x, y, fn) => {
+       x--
+       y--
+        for(let ny = 0; ny <= y; ny ++){
+            for(let nx = 0; nx <= x; nx ++){
+                fn(nx, ny)
+            }
+        }
+   }
+    
+    
     return Object.assign({
+        Grid2DIterator,
         extendCanvas,
         extendContext2D,
         extendContext3D,
