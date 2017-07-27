@@ -97,6 +97,11 @@ const utils = (_ => {
         clear() {
             this.clearRect(0, 0, this.canvas.width, this.canvas.height)
         },
+        resize(w, h){
+            this.canvas.width = w
+            this.canvas.height = h
+            return this
+        },
         strokeCircle(x = 0, y = 0, r = 0) {
             this.beginPath()
             this.ellipse(x, y, r, r, 0, 0, Math.TWO_PI)
