@@ -92,7 +92,10 @@ const utils = (_ => {
     const randIntBetw = (min, max) => Math.floor(Math.random() * (max - min + 1) + min)
 
     const randomOf = (obj, _) => Array.isArray(obj) ? obj[randIntBetw(0, obj.length - 1)] : (_ = Object.keys(obj), obj[_[randIntBetw(0, _.length)]])
-
+    
+    const array2D = (r, c) => new Array(r).fill(0).map(i => i = new Array(c).fill(0))
+    
+    
     const extendContext2D = ctx => Object.assign(ctx, {
         clear() {
             this.clearRect(0, 0, this.canvas.width, this.canvas.height)
@@ -581,6 +584,7 @@ const utils = (_ => {
         playFromSoundCloud,
         getTexture,
         contains,
+        array2D,
     }, {
             //By 'Keith Peters' 2007 (colorized)
             //https://github.com/bit101
