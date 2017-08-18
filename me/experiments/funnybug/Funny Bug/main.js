@@ -288,34 +288,39 @@ class Grid {
         let i = 0;
         const vert = []
         for (let x of range(r)) {
-            //Line 1 
             
+            //Line 1 
             vert.push(0)                    //x
-            vert.push(Math.sin(x ) * 20)    //y
+            vert.push(x  * 20)              //y
             vert.push(x * s)                //z
             vert.push(1)                    //w
+            
             //Line 2 
             vert.push((r - 1) * s)          //x
-            vert.push(Math.cos(x ) * 20)    //y
+            vert.push(x * 20)               //y
             vert.push(x * s)                //z
             vert.push(1)                    //w
+            
             //Line 3
             vert.push(x * s)                //x
-            vert.push(Math.sin(x ) * 20)    //y
+            vert.push(x  * 20)              //y
             vert.push(0)                    //z
             vert.push(1)                    //w
+            
             //Line 4
             vert.push(x * s)                //x
-            vert.push(Math.cos(x ) * 20)    //y
+            vert.push(x * 20)               //y
             vert.push((r - 1) * s)          //z
             vert.push(1)                    //w
         }
+        //The grid is spawned and translated to the center of the specified location
         this.translate(-((r * s) / 2), this.postition[1], -((r * s) / 2))
         this.vertexData = new Float32Array(vert)
         gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexBuffer);
         gl.bufferData(gl.ARRAY_BUFFER, this.vertexData, gl.STATIC_DRAW);
     }
     render() {
+        //TODO: join mView and mProj in one matrix to reduce gl calls 
         gl.useProgram(this.program)
         gl.uniformMatrix4fv(this.mView, false, viewMatrix)
         gl.uniformMatrix4fv(this.mProj, false, projMatrix)
