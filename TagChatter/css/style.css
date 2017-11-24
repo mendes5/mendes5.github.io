@@ -1,0 +1,555 @@
+/*
+     Variaveis Globais  
+*/
+:root{
+    /*Dimensionamento da interface*/
+
+    --sideBarWidth:     80px;    
+    --leftMenuWidth:    280px;   
+    --bottomBarHeight:  60px;   
+    --chatAreaWidth:    70%;
+    --iconsInListSize:  57px;
+    --sideBarZ:         10000;
+    --commentBaseZ:     calc(var(--sideBarZ) + 10);
+    --selectedCommentZ: calc(var(--sideBarZ) + 20);
+
+    /*Cores Importantes*/
+    --pannel-bg-off:                rgb(0, 0,0);    
+    --pannel-bg-on:                 rgb(42, 45, 52);
+    --company-name-border-btm:      rgb(41, 43, 51);
+    --scrollbar-thumb-color:        rgba(146, 147, 150, 1);
+    --scrollbar-track-color:        rgb(42, 45, 52);;
+    --sidebar-bg-color:             rgb(37, 39, 46);
+    --ln3:                          rgb(43, 45, 53);
+    --ln2:                          rgb(41, 43, 51);
+    --ln1:                          rgb(36, 35,43);
+    --bottom-bar-color:             rgb(239, 239, 239);
+    /*Core de ui*/
+    --standard-light:               rgb(247, 247, 247);
+    --standard-hight:               #ccc;
+    --standard-medium:              rgba(146, 147, 150, 1);
+    --standar-dark:                 rgb(73, 73, 73);
+    --standard-gray:                rgba(146, 147, 150, 0.05);
+    --white:                        #fff;
+    --green:                        rgb(100, 255, 100);
+
+
+  
+
+
+}
+/*
+    Scrollbars customizadas
+*/
+
+::-webkit-scrollbar{
+        width: 5px;
+        margin-left:2px;
+        margin-right: 4px; 
+}
+
+::-webkit-scrollbar-track{
+    border-radius: 10px;
+    background-color: var(--scrollbar-track-color);
+}
+
+::-webkit-scrollbar-thumb{
+    border-radius: 10px;
+    background-color:var(--scrollbar-thumb-color);
+}
+
+/*
+    Estilos relacionados ao corpo
+*/
+
+body{
+    overflow: hidden;
+    font-family: 'Lato', sans-serif;
+    margin: 0px;
+    width: 100%;
+    height: 100%
+}
+
+/*
+    Estilos á sidebar
+*/
+
+.sideBar{
+    z-index: var(--sideBarZ);
+    position: absolute;
+    width: var(--sideBarWidth);
+    box-shadow: 3px 0px 20px #000;    
+    background:var(--sidebar-bg-color);
+    height: 100%;
+}
+
+.logoContainer{
+     width: var(--sideBarWidth);
+     height: var(--sideBarWidth);
+}
+
+.logoContainer > img{
+    --logoScaleFactor: 0.3;         
+    position: relative;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(calc(1.0 - var(--logoScaleFactor)));
+    cursor: pointer;
+    height: 100%;
+    transition: 200ms;
+}
+
+.logoContainer > img:hover{
+    transform: translate(-50%, -50%) scale(calc(1.1 - var(--logoScaleFactor)));
+}
+
+.logoSeparator>div{
+    width: 100%;
+    height: 1px;
+}
+
+.logoSeparator>.p1{
+    background: var(--ln1);
+}
+
+.logoSeparator>.p2{
+    background: var(--ln2);
+}
+
+.logoSeparator>.p3{
+    background: var(--ln3);
+}
+
+.sideButtonsContainer{
+    padding: 15%;
+}
+
+.sideButtonsContainer > img {
+    --iconOffset:      8px;         
+    cursor: pointer;
+    --pad: 8px;
+    --border: 2px;
+    padding: var(--pad);
+    width: calc(100% - calc(calc(var(--border) * 2) + var(--pad) * 2));
+    margin-top: var(--iconOffset);
+    margin-bottom: var(--iconOffset);
+    border: var(--border) solid var(--standard-gray);
+    border-radius: 5px;
+    transition: 500ms;
+}
+
+.sideButtonsContainer>img:hover {
+    border: var(--border) solid var(--standard-medium);    
+}
+
+.sideButtonsContainer>img:active {
+    border: var(--border) solid var(--green);    
+}
+
+/*
+    Estilos relacionados ao conteudo principal
+*/
+
+.content{
+    position: absolute;
+    width: calc(100% - var(--sideBarWidth));
+    height: calc(100% - var(--bottomBarHeight));
+    left: var(--sideBarWidth);
+    background: var(--white);
+}
+
+.appHeader{
+    width: 100%;
+    height: var(--sideBarWidth);
+    float: left;
+    border-bottom: 2px solid var(--standard-light);
+}
+
+.companyNameContainer{
+    float: left;
+    width: var(--leftMenuWidth);
+    height: var(--sideBarWidth);
+    background: rgb(42, 45, 52);
+    border-bottom: 1px solid var(--company-name-border-btm);
+}
+
+.companyName{
+   font-size: 35px;    
+    margin-bottom: 0px;
+    margin-top:20px;
+    margin-left:20px;
+    color: var(--white);
+}
+
+.channelNameContainer{
+    float: left;
+    height: var(--sideBarWidth);
+    background: var(--white);  
+}
+
+.channelName{
+    color: var(--standard-medium);
+    font-size: 35px;    
+    margin-bottom: 0px;
+    margin-top:20px;
+    margin-left:20px;
+}
+
+/*
+    Estilos relacionados ao chat
+*/
+.chatArea{
+    position: absolute;
+    top: var(--sideBarWidth);
+    left: calc(var(--sideBarWidth) + var(--leftMenuWidth));
+    overflow-y: scroll;
+    overflow-x: hidden;
+    width: calc(100% - calc(var(--sideBarWidth) + var(--leftMenuWidth)));
+    height: calc(100% - calc(var(--sideBarWidth) + var(--bottomBarHeight)));
+    opacity: 0;
+}
+.chatWrapper{
+    overflow: scroll;
+    height: calc(100% - var(--bottomBarHeight));
+    margin-left: var(--leftMenuWidth);
+    width: var(--chatAreaWidth);
+    display: block;
+    background:var(--white) ;  
+}
+
+/*
+    Estilos relacionados aos canais
+*/
+
+.newMessageCount{
+    margin: 0px;
+    display: inline;
+    right: 18px;
+}
+.chatItem{
+    cursor: pointer;
+    --profilePicSize: 50px;
+    --profilePicMargin: 6px;
+    padding: 2px;
+    margin: 2px;
+    margin-bottom: 5px;
+    border-radius: 10px;
+    transition: 1s;
+}
+
+.chanIcon{
+    margin-bottom: -4px;
+}
+
+/*
+    Estilos relacionados ao chat
+*/
+
+.profilePic {
+    width: var(--profilePicSize);
+    position: relative;
+    float: left;
+    margin: var(--profilePicMargin);
+    border-radius: 10px;
+}
+
+.userName{
+    float: left;
+    color: var(--standar-dark);
+    margin-bottom: 2px;
+    font-size: 18px;
+    font-weight: bolder;
+}
+
+.messageSeparator{
+    float: left;
+    margin-top: 27px;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+.publicationDate{
+    float: left;
+    position: relative;
+    top: 4px;
+    color: var(--standard-medium);
+}
+
+.messageBody{
+    display: inline-block;
+    padding-left: calc(var(--profilePicSize) + var(--profilePicMargin));
+    margin-top:0px; 
+    color: var(--standar-dark);
+    width: 100%;
+}
+
+.bottomBar{
+    --iconMargin: 3px;
+    --iconsSize: 50px;
+    top: 100%;
+    position: absolute;
+    height: var(--bottomBarHeight);
+    width: 100% ;
+    background: var(--bottom-bar-color);
+    z-index: calc(var(--sideBarZ) - 10);
+    float: left;
+}
+
+/*
+    Estilos relacionados á barra de baixo
+*/
+
+.controlls{
+    left: var(--leftMenuWidth);
+    position: absolute;
+    z-index: calc(var(--sideBarZ) - 5);
+    width: var(--chatAreaWidth);
+    height: var(--bottomBarHeight);
+}
+
+.userProfilePicture{
+    float: left;
+    width: var(--iconsSize);
+    height: var(--iconsSize);
+    margin-top: 6px;
+    margin-left: 10px;
+    border-radius: 10px;
+}
+
+.sendIcon{
+    float: right;
+    width: var(--iconsSize);
+    height: var(--iconsSize);
+    transform: scale(0.9);
+    margin-top: 6px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.textInput{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;    
+    margin: auto;
+    width: calc(100% - calc(4 * 38px));;
+    height: 30px;
+    border-radius: 8px;
+    border: 0px;
+    margin-left: 7px;
+    margin-top: 8px;
+    padding: 8px;
+    outline: none;
+}
+
+.leftSpace{
+    float: left;
+    width: var(--leftMenuWidth);
+    height: var(--sideBarWidth);
+}
+
+/*
+    Estilos relacionados ao painel de menu
+*/
+
+.menuPannel {
+    position: absolute;
+    width: var(--leftMenuWidth);
+    top: var(--sideBarWidth);
+    height: calc(100% - var(--sideBarWidth));
+    transition: 500ms;
+    opacity: 0.5;
+    z-index: calc(var(--sideBarZ) - 1);
+    background: var(--pannel-bg-off);
+    transform: translateX( -250px );
+}
+
+.menuPannel.whenActive {
+    opacity: 1;
+    z-index: calc(var(--sideBarZ) - 2);
+    transform: translateX( var(--sideBarWidth) );
+    background: var(--pannel-bg-on)
+}
+
+input[type=radio]{
+    outline: none;
+    cursor: pointer;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.optionTitle{
+    font-size: 20px;
+    color:var(--white) ;
+    text-align: center;
+    margin-bottom: 5px;
+    font-weight: 200;
+}
+
+.emptySpace{
+    margin-bottom: 20px;
+    margin-top: 60px;
+}
+
+.separator{
+    --offset: 60px;
+    margin-left: calc(var(--offset) / 2);
+    margin-bottom: 10px;
+    margin-top: 10px;
+    width: calc(var(--leftMenuWidth) - var(--offset));
+    border-bottom: 1px solid var(--standard-light);
+}
+
+
+.themeSelector{
+    float: left;
+    margin-top: 10px;
+    margin-left: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: 1px solid var(--standard-gray);
+    border-radius: 8px;
+    transition: 500ms;
+    cursor: pointer;
+}
+
+.themeSelector:hover{
+    border: 1px solid    var(--standard-medium);
+}
+
+.themeSelector.selected{
+    border: 1px solid var(--green)
+}
+
+.themeSelector:active{
+    border: 1px solid var(--green);
+}
+
+.colorDisplay{
+    border-radius:5px;
+    width:20px;
+    height:20px;
+    float: left;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+.channelsMenu, .usersMenu, .configMenu{
+    overflow-y: scroll;
+}
+
+/*
+    Estilos relacionados ao painel de canais
+*/
+
+.channelItem{
+    cursor: pointer;
+    height: 17px;
+    border: 1px solid var(--standard-gray);
+    border-radius: 8px;
+    padding: 9px;
+    margin-top: 9px;
+    margin-left: 10px;
+    margin-right: 10px;
+    color: #fff;
+    font-weight: 600;
+    transition: 500ms;
+}
+
+.channelItem:hover{
+    border: 1px solid var(--standard-light);   
+}
+
+.channelItem:active{
+    border: 1px solid var(--green);   
+}
+
+.channelNameInList{
+    display: inline;
+    color: var(--standard-medium);
+    transition: 500ms
+}
+
+.channelNameInList.selected{
+    color: var(--white);
+}
+
+.channelIcon{
+    width: 5px;
+}
+
+/*
+    Estilos relacionados ao painel de usuarios
+*/
+
+.userItem{
+    cursor: pointer;
+    border: 1px solid var(--standard-gray);
+    border-radius: 8px;
+    margin-top: 12px;
+    margin-left: 10px;
+    padding: 3px;
+    height: 72px;
+    margin-right: 10px;
+    transition: 500ms;
+}
+
+.userItem:hover{
+    border: 1px solid var(--standard-light);   
+}
+
+.userItem:active{
+    border: 1px solid   var(--green)
+}
+
+.userItemPicture{
+    float: left;
+    margin-top: 8px;
+    margin-left: 8px;
+    border-radius: 10px;
+    width: var(--iconsInListSize);
+}
+
+.userNameInList{
+    color: var(--white);
+    position: relative;
+    margin-left: 14px;
+    display: inline;
+    top: 20px;
+}
+
+.lastSeen{
+    color: var(--standard-light);
+    font-size: 11px;
+    display: inline;
+    margin-left: 15px;
+    position: relative;
+    top: 14px
+}
+
+.labelDesc{
+    text-align: center;
+    font-size: 18px;
+    color: var(--white);
+    margin-top: 2px;
+}
+
+/*
+    Não ligue para os commentarios desse css
+    Pararam de fazer sentido depois do primeiro dia.
+
+    Acho que é por isto que usam frameworks como Marko.js e React.js
+
+    A DOMRenderer poderia ter algo assim. mas é só uma
+    biblioteca de umas 100 linhas funcionais por enquanto.
+*/
+
+.onlineIndicator{
+    width: 8px;
+    height: 8px;
+    background-color: yellow;
+    border-radius: 8px;
+    margin: 0px;
+    margin-top: 8px;
+    margin-left: 20px;
+    transition: 1s;
+}

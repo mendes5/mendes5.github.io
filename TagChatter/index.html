@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>TagChatter</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css"/>
+    <link rel="icon" href="./img/logo.png" />
+</head>
+
+<body>
+
+    <!--A parte da sidebar-->
+    <div class="sideBar">
+        <div class="logoContainer">
+            <img class="base" src="./img/logo.svg" />
+        </div>
+        <div class="logoSeparator">
+            <div class="p1"></div>
+            <div class="p2"></div>
+            <div class="p3"></div>
+        </div>
+        <div id="channelsButton" class="sideButtonsContainer">
+            <!--Não consegui icones com o tema do original-->
+            <img id="btnChannels" src="./img/channel_icon.svg" />
+            <img id="btnUsers" src="./img/channel_icon.svg" />
+            <img id="btnConfig" src="./img/channel_icon.svg" />
+            <div id="onlineIndicator" class="onlineIndicator"></div>
+        </div>
+    </div>
+
+    <!--Conteudo principal-->
+    <div class="content">
+
+        <!--O Header do site-->
+        <div class="appHeader">
+            <div class="companyNameContainer">
+                <p class="companyName">TagChatter</p>
+            </div>
+            <div class="channelNameContainer">
+                <p class="channelName" id="channelNameDisplay">Select an channel to begin...</p>
+            </div>
+        </div>
+        
+        <!--A barra de texto-->
+        <div class="bottomBar">
+            <div class="leftSpace"></div>
+            <div class="controlls">
+                <img src="./img/unset.png" class="userProfilePicture currentUserPicturePlaceHolder" />
+                <input id="textInput" class="textInput" type="text"></input>
+                <img id="btnSend" class="sendIcon" src="./img/send_icon.svg" />
+            </div>
+        </div>
+
+    </div>
+
+    <!--Paineis-->
+
+    <!--Painel dos canais-->
+    <div id="channelsMenu" class="channelsMenu menuPannel">
+        <p class="optionTitle">CHANNELS</p>
+        <div class="separator"></div>
+        <!--Insert channels templates here-->
+    </div>
+
+    <!--Painel dos usuarios-->
+    <div id="usersMenu" class="usersMenu menuPannel">
+        <p class="optionTitle">USERS</p>
+        <div class="separator"></div>
+        <!--Insert user templates here-->
+    </div>
+
+    <!--Painel de configurações-->
+    <div id="configMenu" class="configMenu menuPannel">
+        <p class="optionTitle">OPTIONS</p>
+        <div class="separator"></div>
+        <p class="optionTitle">Change color theme:</p>
+        <!--Insert color templates here-->
+    </div>
+
+    <!--Scripts que serão utilizados-->
+    <div class="chatArea" id="initial"></div>
+
+    <script>TESTING_ENABLED = false</script>
+
+    <!--Scripts que serão utilizados-->
+    <script src="./js/Utils.js"></script>
+    <script src="./js/Css.js"></script>
+    <script src="./js/DOMRenderer.js"></script>
+    <script src="./js/Pannels.js"></script>
+    <script src="./js/Users.js"></script>
+    <script src="./js/Channels.js"></script>
+    <script src="./js/Theme.js"></script>
+    <script src="./js/Testing.js"></script>
+    <script src="./js/Message.js"></script>
+    <script src="./js/Integration.js"></script>    
+</body>
+
+</html>
